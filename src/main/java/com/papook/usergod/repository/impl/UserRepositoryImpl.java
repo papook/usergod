@@ -61,10 +61,13 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    /**
+     * @throws IllegalArgumentException if the id parameter is null
+     */
     @Override
     public Optional<User> findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        User user = entityManager.find(User.class, id);
+        return Optional.ofNullable(user);
     }
 
     @Override
