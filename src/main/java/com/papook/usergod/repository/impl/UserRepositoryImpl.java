@@ -5,6 +5,11 @@ import java.util.Optional;
 import com.papook.usergod.model.User;
 import com.papook.usergod.repository.UserRepository;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+
 /**
  * User repository for CRUD operations
  * on the User entity. This class is
@@ -13,12 +18,17 @@ import com.papook.usergod.repository.UserRepository;
  * 
  * @author papook
  */
+@ApplicationScoped
+@Transactional
 public class UserRepositoryImpl implements UserRepository {
+
+    @PersistenceContext(unitName = "user_pu")
+    private EntityManager entityManager;
 
     @Override
     public User save(User entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        entityManager.persist(entity);
+        return entity;
     }
 
     @Override
