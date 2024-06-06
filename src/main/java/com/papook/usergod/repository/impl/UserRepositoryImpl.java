@@ -10,6 +10,7 @@ import com.papook.usergod.repository.UserRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -98,6 +99,23 @@ public class UserRepositoryImpl implements UserRepository {
         User user = entityManager.find(User.class, id);
         if (user != null) {
             entityManager.remove(user);
+        }
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        try {
+            CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+            CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+            Root<User> root = cq.from(User.class);
+
+            cq.select(cb.count(root)).where(cb.equal(root.get("email"), email));
+
+            TypedQuery<Long> query = entityManager.createQuery(cq);
+
+            return query.getSingleResult() > 0;
+        } catch (NoResultException e) {
+            return false; // If no result is found, return false
         }
     }
 

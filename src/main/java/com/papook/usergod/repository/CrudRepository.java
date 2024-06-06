@@ -82,4 +82,12 @@ public interface CrudRepository<T, ID> {
      */
     void deleteById(ID id);
 
+    /**
+     * Checks if a user with the given email exists.
+     * 
+     * @param email Email to check
+     * @return true if a user with the given email exists,
+     *         false otherwise
+     */
+    boolean existsByEmail(String email);
 }
