@@ -17,13 +17,14 @@ public class UserService {
 
         // If a user with the same email already exists, throw an exception
         if (existsByEmail) {
-            throw new UserExistsException();
+            throw new EmailTakenException();
         }
 
         return userRepository.save(user);
     }
 
     public User modifyUser(Long id, User user) {
+
         return userRepository.update(id, user);
     }
 }

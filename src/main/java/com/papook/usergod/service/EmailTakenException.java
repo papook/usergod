@@ -6,6 +6,6 @@ package com.papook.usergod.service;
  * 
  * @author papook
  */
-public class UserExistsException extends RuntimeException {
+public class EmailTakenException extends RuntimeException {
 
 }
