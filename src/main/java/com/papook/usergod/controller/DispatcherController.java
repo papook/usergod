@@ -1,5 +1,6 @@
 package com.papook.usergod.controller;
 
+import static com.papook.usergod.config.ServerConfig.REGISTER_ENDPOINT;
 import static com.papook.usergod.config.ServerConfig.USERS_ENDPOINT;
 
 import java.net.URI;
@@ -25,7 +26,7 @@ public class DispatcherController {
 	public Response dispatcher() {
 		// Create URIs for the register and getUsers endpoints
 		URI registerUserUri = uriInfo.getAbsolutePathBuilder()
-				.path("register")
+				.path(REGISTER_ENDPOINT)
 				.build();
 
 		URI getUsersUri = uriInfo.getAbsolutePathBuilder()
