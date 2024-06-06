@@ -13,6 +13,7 @@ import jakarta.validation.constraints.Email;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
@@ -41,7 +42,7 @@ public class User {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @JsonbTransient
+    @Getter(AccessLevel.NONE)
     private String password;
 
     public void setFirstName(String firstName) {
@@ -54,6 +55,11 @@ public class User {
         // Capitalize the first letter of the last name
         this.lastName = lastName.substring(0, 1).toUpperCase()
                 + lastName.substring(1);
+    }
+
+    @JsonbTransient
+    public String getPassword() {
+        return password;
     }
 
 }
