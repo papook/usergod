@@ -10,8 +10,10 @@ public class PasswordTool {
         return hashedPassword;
     }
 
-    public static boolean verify(final String plaintextPassword, final String hashedPassword) {
-        return hash(hashedPassword).equals(plaintextPassword);
+    public static boolean verify(final String plaintextPassword, final String hash) {
+        String hashedPassword = hash(plaintextPassword);
+
+        return hashedPassword.equals(hash);
     }
 
 }
