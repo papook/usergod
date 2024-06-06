@@ -1,5 +1,6 @@
 package com.papook.usergod.controller;
 
+import static com.papook.usergod.config.Constants.CHANGE_PASSWORD_ENDPOINT;
 import static com.papook.usergod.config.Constants.GET_USER_COLLECTION_REL;
 import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
 import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
@@ -49,7 +50,7 @@ public class UserController {
 	}
 
 	@GET
-	@Path(USERS_ENDPOINT + "/{id: \\d+}")
+	@Path(USER_BY_ID_ENDPOINT)
 	public Response getUser(@PathParam("id") Long id) {
 		return userService.getUser(id)
 				.map(user -> Response.ok(user).build())
@@ -57,7 +58,7 @@ public class UserController {
 	}
 
 	@PUT
-	@Path(USERS_ENDPOINT + "/{id: \\d+}")
+	@Path(USER_BY_ID_ENDPOINT)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateUser(@PathParam("id") Long id, @Valid User user) {
 		User modifyUser = userService.modifyUser(id, user);

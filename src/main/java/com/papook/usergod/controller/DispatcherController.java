@@ -36,7 +36,7 @@ public class DispatcherController {
 				.path(USERS_ENDPOINT)
 				.build();
 
-		URI tutorialUri = UriBuilder.fromUri(" https://www.youtube.com/watch?v=dQw4w9WgXcQ").build();
+		URI tutorialUri = UriBuilder.fromUri("https://www.youtube.com/watch?v=dQw4w9WgXcQ").build();
 
 		return Response.ok()
 				.link(registerUserUri, REGISTER_REL)
