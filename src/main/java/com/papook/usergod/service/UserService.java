@@ -1,5 +1,7 @@
 package com.papook.usergod.service;
 
+import java.util.Optional;
+
 import com.papook.usergod.model.User;
 import com.papook.usergod.repository.UserRepository;
 
@@ -13,7 +15,8 @@ public class UserService {
     private UserRepository userRepository;
 
     /**
-     * Create a new user. If a user with the same email already exists, throw an exception.
+     * Create a new user. If a user with the same email already exists, throw an
+     * exception.
      * 
      * @param user The user to create
      * @return The created user
@@ -29,6 +32,17 @@ public class UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    public Iterable<User> getUsers(
+            final String firstName,
+            final String lastName,
+            final int page) {
+        return userRepository.findAll(firstName, lastName, page);
+    }
+
+    public Optional<User> getUser(Long id) {
+        return userRepository.findById(id);
     }
 
     public User modifyUser(Long id, User user) {
