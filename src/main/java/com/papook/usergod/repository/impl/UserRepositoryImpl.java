@@ -38,12 +38,6 @@ public class UserRepositoryImpl implements UserRepository {
         return entity;
     }
 
-    /**
-     * @throws IdMismatchException      if the ID of the entity representation
-     *                                  does not match the id parameter of the
-     *                                  method
-     * @throws IllegalArgumentException if the id parameter is null
-     */
     @Override
     public User update(Long id, User entity) {
         // Check if the ID is null
@@ -67,9 +61,6 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
-    /**
-     * @throws IllegalArgumentException if the id parameter is null
-     */
     @Override
     public Optional<User> findById(Long id) {
         User user = entityManager.find(User.class, id);

@@ -35,6 +35,12 @@ public interface CrudRepository<T, ID> {
      * @param entity Entity representation
      * @return User object if the entity was created,
      *         null if the entity was updated
+     * 
+     * @throws IdMismatchException      if the ID of the entity representation
+     *                                  does not match the id parameter of the
+     *                                  method
+     * @throws IllegalArgumentException if the id parameter is null
+     * 
      */
     User update(ID id, T entity);
 
@@ -46,6 +52,9 @@ public interface CrudRepository<T, ID> {
      * 
      * @param id Entity ID, must not be null
      * @return Optional of the entity
+     * 
+     * @throws IllegalArgumentException if the id parameter is null
+     * 
      */
     Optional<T> findById(ID id);
 
