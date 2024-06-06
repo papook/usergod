@@ -1,5 +1,7 @@
 package com.papook.usergod.repository;
 
+import java.util.Optional;
+
 /**
  * Generic CRUD repository
  * @param <T> Entity type
@@ -12,7 +14,7 @@ public interface CrudRepository<T, ID> {
 
     T update(T entity);
 
-    T findById(ID id);
+    Optional<T> findById(ID id);
 
     Iterable<T> findAll(
             int page
