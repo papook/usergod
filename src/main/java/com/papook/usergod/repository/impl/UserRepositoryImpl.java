@@ -3,7 +3,7 @@ package com.papook.usergod.repository.impl;
 import java.util.Optional;
 
 import com.papook.usergod.model.User;
-import com.papook.usergod.repository.IdsDoNotMatchException;
+import com.papook.usergod.repository.IdMismatchException;
 import com.papook.usergod.repository.UserRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -33,7 +33,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     /**
-     * @throws IdsDoNotMatchException if the ID of the entity representation
+     * @throws IdMismatchException if the ID of the entity representation
      *                                does not match the id parameter of the method
      */
     @Override
