@@ -1,5 +1,6 @@
 package com.papook.usergod.controller;
 
+import static com.papook.usergod.config.Constants.GET_USER_COLLECTION_REL;
 import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
 import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
 
@@ -65,7 +66,7 @@ public class UserController {
 			Link link = Link.fromUri(uriInfo.getBaseUriBuilder()
 					.path(USERS_ENDPOINT)
 					.build())
-					.rel("getUsersCollection")
+					.rel(GET_USER_COLLECTION_REL)
 					.build();
 
 			return Response.noContent()
