@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.papook.usergod.utils.PasswordTool;
 
+import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,6 +40,7 @@ public class User {
     private LocalDate birthDate;
 
     @Setter(AccessLevel.NONE)
+    @JsonbTransient
     private String password;
 
     public void setPassword(final String password) {
