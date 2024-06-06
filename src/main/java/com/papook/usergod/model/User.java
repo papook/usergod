@@ -30,9 +30,11 @@ public class User {
     private Long id;
 
     @Column(name = "first_name")
+    @Setter(AccessLevel.NONE)
     private String firstName;
 
     @Column(name = "last_name")
+    @Setter(AccessLevel.NONE)
     private String lastName;
 
     @Email
@@ -45,7 +47,20 @@ public class User {
     @JsonbTransient
     private String password;
 
+    public void setFirstName(String firstName) {
+        // Capitalize the first letter of the first name
+        this.firstName = firstName.substring(0, 1).toUpperCase()
+                + firstName.substring(1);
+    }
+
+    public void setLastName(String lastName) {
+        // Capitalize the first letter of the last name
+        this.lastName = lastName.substring(0, 1).toUpperCase()
+                + lastName.substring(1);
+    }
+
     public void setPassword(final String password) {
         this.password = PasswordTool.hash(password);
     }
+
 }
