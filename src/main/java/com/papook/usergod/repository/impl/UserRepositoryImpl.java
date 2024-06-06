@@ -3,6 +3,7 @@ package com.papook.usergod.repository.impl;
 import java.util.Optional;
 
 import com.papook.usergod.model.User;
+import com.papook.usergod.repository.IdsDoNotMatchException;
 import com.papook.usergod.repository.UserRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -31,8 +32,12 @@ public class UserRepositoryImpl implements UserRepository {
         return entity;
     }
 
+    /**
+     * @throws IdsDoNotMatchException if the ID of the entity representation
+     *                                does not match the id parameter of the method
+     */
     @Override
-    public User update(Long id, User entity) {
+    public Optional<User> update(Long id, User entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }

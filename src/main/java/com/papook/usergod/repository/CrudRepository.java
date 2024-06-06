@@ -24,13 +24,19 @@ public interface CrudRepository<T, ID> {
     T save(T entity);
 
     /**
-     * Updates an entity in the database
-     * and returns the updated entity.
+     * Updates (or creates if it doesn't exist) an entity in the database.
+     * If the entity with the given ID exists,
+     * it is updated. Otherwise, a new entity is
+     * created with the given ID.
      * 
-     * @param entity Entity to update
-     * @return Updated entity
+     * @param id     Entity ID, should match the ID of the entity
+     *               passed in the entity parameter. Must not be null
+     * @param entity Entity representation
+     * @return Optional of the created entity
+     *         or an empty Optional if the entity
+     *         already exists
      */
-    T update(ID id, T entity);
+    Optional<T> update(ID id, T entity);
 
     /**
      * Finds an entity by its ID.
