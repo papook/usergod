@@ -2,7 +2,7 @@ package com.papook.usergod.repository;
 
 import java.util.Optional;
 
-import com.papook.usergod.config.ServerConfig;
+import com.papook.usergod.config.Constants;
 import com.papook.usergod.model.User;
 
 /**
@@ -62,8 +62,8 @@ public interface CrudRepository<T, ID> {
      * Finds all entities with the given
      * first name and last name. The result
      * is paginated. Default page size is
-     * {@value ServerConfig#PAGE_SIZE}, set
-     * in the {@link ServerConfig} class and
+     * {@value Constants#PAGE_SIZE}, set
+     * in the {@link Constants} class and
      * cannot be changed.
      * 
      * @param firstName First name to search for
@@ -71,7 +71,7 @@ public interface CrudRepository<T, ID> {
      * @param page      Page number
      * @return Iterable of entities
      * 
-     * @see ServerConfig
+     * @see Constants
      */
     Iterable<T> findAll(String firstName, String lastName, int page);
 

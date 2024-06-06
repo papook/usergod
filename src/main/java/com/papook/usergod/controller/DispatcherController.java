@@ -1,7 +1,7 @@
 package com.papook.usergod.controller;
 
-import static com.papook.usergod.config.ServerConfig.REGISTER_ENDPOINT;
-import static com.papook.usergod.config.ServerConfig.USERS_ENDPOINT;
+import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
+import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
 
 import java.net.URI;
 

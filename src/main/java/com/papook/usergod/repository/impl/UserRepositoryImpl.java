@@ -1,6 +1,6 @@
 package com.papook.usergod.repository.impl;
 
-import static com.papook.usergod.config.ServerConfig.PAGE_SIZE;
+import static com.papook.usergod.config.Constants.PAGE_SIZE;
 
 import java.util.Optional;
 
