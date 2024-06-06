@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.papook.usergod.model.User;
 import com.papook.usergod.repository.UserRepository;
+import com.papook.usergod.repository.WrongPasswordException;
 import com.papook.usergod.utils.PasswordTool;
 
 import jakarta.ejb.Stateless;
@@ -51,9 +52,27 @@ public class UserService {
     }
 
     public User modifyUser(Long id, User user) {
-        if (!userRepository.existsByEmail(user.getEmail())) {
-            throw new EmailTakenException();
+        Optional<User> userById = userRepository.findById(id);
+        boolean userExists = userById.isPresent();
+
+        // If the user exists, check if the provided
+        // password matches the current one
+        if (userExists) {
+            User existingUser = userById.get();
+            String providedPassword = user.getPassword();
+            String currentPasswordHash = existingUser.getPassword();
+
+            boolean passwordMatches = PasswordTool.verify(providedPassword, currentPasswordHash);
+
+            // If the provided password does not match the current one, throw an exception
+            if (!passwordMatches) {
+                throw new WrongPasswordException();
+            }
         }
+
+        // Hash the password before saving it
+        String hashedPassword = PasswordTool.hash(user.getPassword());
+        user.setPassword(hashedPassword);
 
         return userRepository.update(id, user);
     }
