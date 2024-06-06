@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.papook.usergod.model.User;
 import com.papook.usergod.repository.UserRepository;
+import com.papook.usergod.utils.PasswordTool;
 
 import jakarta.ejb.Stateless;
 import jakarta.inject.Inject;
@@ -30,6 +31,10 @@ public class UserService {
         if (existsByEmail) {
             throw new EmailTakenException();
         }
+
+        // Hash the password before saving it
+        String hashedPassword = PasswordTool.hash(user.getPassword());
+        user.setPassword(hashedPassword);
 
         return userRepository.save(user);
     }
