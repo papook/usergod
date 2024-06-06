@@ -76,12 +76,12 @@ public class UserRepositoryImpl implements UserRepository {
         return Optional.ofNullable(user);
     }
 
-    /**
-     * @param firstName the first name of the user. "%" to not filter by firstName
-     * @param lastName  the last name of the user. "%" to not filter by lastName
-     */
     @Override
     public Iterable<User> findAll(String firstName, String lastName, int page) {
+        // Replace empty strings with % to match all
+        firstName = firstName.isEmpty() ? "%" : firstName;
+        lastName = lastName.isEmpty() ? "%" : lastName;
+
         // Ensure that the page number is not less than 1
         page = Math.max(1, page);
         // Calculate the start position of the query
@@ -104,8 +104,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        User user = entityManager.find(User.class, id);
+        if (user != null) {
+            entityManager.remove(user);
+        }
     }
 
 }
