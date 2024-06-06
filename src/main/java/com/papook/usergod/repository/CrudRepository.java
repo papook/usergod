@@ -4,7 +4,8 @@ import java.util.Optional;
 
 /**
  * Generic CRUD repository
- * @param <T> Entity type
+ * 
+ * @param <T>  Entity type
  * @param <ID> Entity ID type
  * @author papook
  */
@@ -16,10 +17,7 @@ public interface CrudRepository<T, ID> {
 
     Optional<T> findById(ID id);
 
-    Iterable<T> findAll(
-            int page
-    // TODO: add filtering parameters
-    );
+    Iterable<T> findAll(String firstName, String lastName, int page);
 
     void deleteById(ID id);
 
