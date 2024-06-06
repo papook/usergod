@@ -1,5 +1,7 @@
 package com.papook.usergod.controller;
 
+import static com.papook.usergod.config.ServerConfig.USERS_ENDPOINT;
+
 import java.net.URI;
 
 import jakarta.ws.rs.Consumes;
@@ -16,23 +18,23 @@ import jakarta.ws.rs.core.UriInfo;
 @Produces(MediaType.APPLICATION_JSON)
 public class DispatcherController {
 
-    @Context
-    UriInfo uriInfo;
+	@Context
+	UriInfo uriInfo;
 
-    @GET
-    public Response dispatcher() {
-        // Create URIs for the register and getUsers endpoints
-        URI registerUserUri = uriInfo.getAbsolutePathBuilder()
-                .path("register")
-                .build();
+	@GET
+	public Response dispatcher() {
+		// Create URIs for the register and getUsers endpoints
+		URI registerUserUri = uriInfo.getAbsolutePathBuilder()
+				.path("register")
+				.build();
 
-        URI getUsersUri = uriInfo.getAbsolutePathBuilder()
-                .path("getUsersCollection")
-                .build();
+		URI getUsersUri = uriInfo.getAbsolutePathBuilder()
+				.path(USERS_ENDPOINT)
+				.build();
 
-        return Response.ok()
-                .link(registerUserUri, "register")
-                .link(getUsersUri, "users")
-                .build();
-    }
+		return Response.ok()
+				.link(registerUserUri, "register")
+				.link(getUsersUri, "getUsersCollection")
+				.build();
+	}
 }
