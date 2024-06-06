@@ -35,11 +35,23 @@ public class UserRepositoryImpl implements UserRepository {
     /**
      * @throws IdMismatchException if the ID of the entity representation
      *                             does not match the id parameter of the method
+     *                             or if the id parameter is null.
      */
     @Override
     public User update(Long id, User entity) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        if (!id.equals(entity.getId()) || id == null) {
+            throw new IdMismatchException();
+        }
+
+        boolean exists = entityManager.find(User.class, id) != null;
+
+        if (exists) {
+            entityManager.merge(entity);
+            return null;
+        } else {
+            entityManager.persist(entity);
+            return entity;
+        }
     }
 
     @Override
