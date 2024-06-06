@@ -30,7 +30,7 @@ public interface CrudRepository<T, ID> {
      * @param entity Entity to update
      * @return Updated entity
      */
-    T update(T entity);
+    T update(ID id, T entity);
 
     /**
      * Finds an entity by its ID.
