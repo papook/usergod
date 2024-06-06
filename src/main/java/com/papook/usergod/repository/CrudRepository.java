@@ -2,6 +2,8 @@ package com.papook.usergod.repository;
 
 import java.util.Optional;
 
+import com.papook.usergod.config.ServerConfig;
+
 /**
  * Generic CRUD repository
  * 
@@ -44,12 +46,17 @@ public interface CrudRepository<T, ID> {
     /**
      * Finds all entities with the given
      * first name and last name. The result
-     * is paginated. Default page size is TODO
+     * is paginated. Default page size is
+     * {@value ServerConfig#PAGE_SIZE}, set
+     * in the {@link ServerConfig} class and
+     * cannot be changed.
      * 
      * @param firstName First name to search for
      * @param lastName  Last name to search for
      * @param page      Page number
      * @return Iterable of entities
+     * 
+     * @see ServerConfig
      */
     Iterable<T> findAll(String firstName, String lastName, int page);
 
