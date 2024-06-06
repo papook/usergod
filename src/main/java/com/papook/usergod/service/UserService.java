@@ -24,6 +24,9 @@ public class UserService {
     }
 
     public User modifyUser(Long id, User user) {
+        if (!userRepository.existsByEmail(user.getEmail())) {
+            throw new EmailTakenException();
+        }
 
         return userRepository.update(id, user);
     }
