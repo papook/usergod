@@ -12,6 +12,14 @@ public class UserService {
     @Inject
     private UserRepository userRepository;
 
+    /**
+     * Create a new user. If a user with the same email already exists, throw an exception.
+     * 
+     * @param user The user to create
+     * @return The created user
+     * 
+     * @throws EmailTakenException If a user with the same email already exists
+     */
     public User createUser(User user) {
         boolean existsByEmail = userRepository.existsByEmail(user.getEmail());
 
