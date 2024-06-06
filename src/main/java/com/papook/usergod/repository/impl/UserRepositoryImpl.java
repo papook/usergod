@@ -34,10 +34,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     /**
      * @throws IdMismatchException if the ID of the entity representation
-     *                                does not match the id parameter of the method
+     *                             does not match the id parameter of the method
      */
     @Override
-    public Optional<User> update(Long id, User entity) {
+    public User update(Long id, User entity) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'update'");
     }

@@ -3,6 +3,7 @@ package com.papook.usergod.repository;
 import java.util.Optional;
 
 import com.papook.usergod.config.ServerConfig;
+import com.papook.usergod.model.User;
 
 /**
  * Generic CRUD repository
@@ -32,11 +33,10 @@ public interface CrudRepository<T, ID> {
      * @param id     Entity ID, should match the ID of the entity
      *               passed in the entity parameter. Must not be null
      * @param entity Entity representation
-     * @return Optional of the created entity
-     *         or an empty Optional if the entity
-     *         already exists
+     * @return User object if the entity was created,
+     *         null if the entity was updated
      */
-    Optional<T> update(ID id, T entity);
+    User update(ID id, T entity);
 
     /**
      * Finds an entity by its ID.
