@@ -2,8 +2,6 @@ package com.papook.usergod.model;
 
 import java.time.LocalDate;
 
-import com.papook.usergod.utils.PasswordTool;
-
 import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,7 +41,6 @@ public class User {
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
-    @Setter(AccessLevel.NONE)
     @JsonbTransient
     private String password;
 
@@ -57,10 +54,6 @@ public class User {
         // Capitalize the first letter of the last name
         this.lastName = lastName.substring(0, 1).toUpperCase()
                 + lastName.substring(1);
-    }
-
-    public void setPassword(final String password) {
-        this.password = PasswordTool.hash(password);
     }
 
 }
