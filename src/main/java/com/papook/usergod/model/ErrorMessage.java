@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Represents an exception entity with a code and a message.
+ * Represents an error message with a code and a message.
  * Helps the client understand what went wrong.
  * 
  * @author papook
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExceptionEntity {
+public class ErrorMessage {
     private int code;
     private String message;
 }
