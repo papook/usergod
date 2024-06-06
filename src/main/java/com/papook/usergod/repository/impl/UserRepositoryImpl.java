@@ -33,13 +33,20 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     /**
-     * @throws IdMismatchException if the ID of the entity representation
-     *                             does not match the id parameter of the method
-     *                             or if the id parameter is null.
+     * @throws IdMismatchException      if the ID of the entity representation
+     *                                  does not match the id parameter of the
+     *                                  method
+     * @throws IllegalArgumentException if the id parameter is null
      */
     @Override
     public User update(Long id, User entity) {
-        if (!id.equals(entity.getId()) || id == null) {
+        // Check if the ID is null
+        if (id == null) {
+            throw new IllegalArgumentException();
+        }
+
+        // Check if the ID of the entity representation matches the id parameter
+        if (!id.equals(entity.getId())) {
             throw new IdMismatchException();
         }
 
