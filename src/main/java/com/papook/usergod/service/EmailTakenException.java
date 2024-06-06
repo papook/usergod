@@ -1,7 +1,5 @@
 package com.papook.usergod.service;
 
-import com.papook.usergod.model.ExceptionEntity;
-
 /**
  * Exception thrown when a user with the same email
  * already exists in the database.
@@ -9,7 +7,12 @@ import com.papook.usergod.model.ExceptionEntity;
  * @author papook
  */
 public class EmailTakenException extends RuntimeException {
-    public static ExceptionEntity getExceptionEntity() {
-        return new ExceptionEntity(400, "A user with the same email already exists.");
+
+    private static final long serialVersionUID = 1L;
+    private static final String message = "A user with the same email already exists.";
+
+    public EmailTakenException() {
+        super(message);
     }
+
 }
