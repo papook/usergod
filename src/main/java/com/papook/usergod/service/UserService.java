@@ -52,13 +52,12 @@ public class UserService {
     }
 
     public User modifyUser(Long id, User user) {
-        Optional<User> userById = userRepository.findById(id);
-        boolean userExists = userById.isPresent();
+        boolean userExists = userRepository.existsById(id);
 
         // If the user exists, check if the provided
         // password matches the current one
         if (userExists) {
-            User existingUser = userById.get();
+            User existingUser = userRepository.findById(id).get();
             String providedPassword = user.getPassword();
             String currentPasswordHash = existingUser.getPassword();
 

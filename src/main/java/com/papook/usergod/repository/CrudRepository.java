@@ -33,8 +33,8 @@ public interface CrudRepository<T, ID> {
      * @param id     Entity ID, should match the ID of the entity
      *               passed in the entity parameter. Must not be null
      * @param entity Entity representation
-     * @return User object if the entity was created,
-     *         null if the entity was updated
+     * @return User representation of the entity
+     *         if the update was successful
      * 
      * @throws IdMismatchException      if the ID of the entity representation
      *                                  does not match the id parameter of the
