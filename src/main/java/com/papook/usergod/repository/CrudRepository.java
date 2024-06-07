@@ -83,6 +83,15 @@ public interface CrudRepository<T, ID> {
     void deleteById(ID id);
 
     /**
+     * Checks if an entity with the given ID exists.
+     * 
+     * @param id ID to check
+     * @return true if an entity with the given ID exists,
+     *         false otherwise
+     */
+    boolean existsById(ID id);
+    
+    /**
      * Checks if a user with the given email exists.
      * 
      * @param email Email to check

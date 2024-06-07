@@ -103,6 +103,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean existsById(Long id) {
+        return entityManager.find(User.class, id) != null;
+    }
+
+    @Override
     public boolean existsByEmail(String email) {
         try {
             CriteriaBuilder cb = entityManager.getCriteriaBuilder();
