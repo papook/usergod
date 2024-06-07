@@ -5,16 +5,14 @@ import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
 import static com.papook.usergod.config.Constants.REGISTER_REL;
 import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
 
-import java.net.URI;
-
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Link;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.UriBuilder;
 import jakarta.ws.rs.core.UriInfo;
 
 @Path("")
@@ -28,20 +26,25 @@ public class DispatcherController {
 	@GET
 	public Response dispatcher() {
 		// Create URIs for the register and getUsers endpoints
-		URI registerUserUri = uriInfo.getAbsolutePathBuilder()
+		Link registerLink = Link.fromUri(uriInfo.getAbsolutePathBuilder()
 				.path(REGISTER_ENDPOINT)
+				.build())
+				.rel(REGISTER_REL)
+				.type(MediaType.APPLICATION_JSON)
 				.build();
 
-		URI getUsersUri = uriInfo.getAbsolutePathBuilder()
-				.path(USERS_ENDPOINT)
+		Link getUsersLink = Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder()
+				.path(USERS_ENDPOINT))
+				.rel(GET_USER_COLLECTION_REL)
+				.type(MediaType.APPLICATION_JSON)
 				.build();
 
-		URI tutorialUri = UriBuilder.fromUri("https://www.youtube.com/watch?v=dQw4w9WgXcQ").build();
+		Link tutorialLink = Link.fromUri("https://www.youtube.com/watch?v=dQw4w9WgXcQ")
+				.rel("tutorial")
+				.build();
 
 		return Response.ok()
-				.link(registerUserUri, REGISTER_REL)
-				.link(getUsersUri, GET_USER_COLLECTION_REL)
-				.link(tutorialUri, "tutorial")
+				.links(registerLink, getUsersLink, tutorialLink)
 				.build();
 	}
 }

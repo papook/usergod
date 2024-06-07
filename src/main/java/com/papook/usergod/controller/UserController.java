@@ -1,8 +1,10 @@
 package com.papook.usergod.controller;
 
 import static com.papook.usergod.config.Constants.CHANGE_PASSWORD_ENDPOINT;
+import static com.papook.usergod.config.Constants.CHANGE_PASSWORD_REL;
 import static com.papook.usergod.config.Constants.GET_SINGLE_USER_REL;
 import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
+import static com.papook.usergod.config.Constants.UPDATE_USER_REL;
 import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
 import static com.papook.usergod.config.Constants.USER_BY_ID_ENDPOINT;
 
@@ -28,6 +30,8 @@ import jakarta.ws.rs.core.Link;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import jakarta.ws.rs.core.Response.ResponseBuilder;
+import jakarta.ws.rs.core.UriBuilder;
 
 @Path("")
 @Produces(MediaType.APPLICATION_JSON)
@@ -46,17 +50,81 @@ public class UserController {
 			@DefaultValue("") @QueryParam("lastName") String lastName,
 			@QueryParam("page") int page) {
 
+		page = Math.max(1, page);
+
+		Link getSingeUser = Link.fromUriBuilder(uriInfo.getAbsolutePathBuilder()
+				.path("id"))
+				.rel(GET_SINGLE_USER_REL)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+
 		Iterable<User> users = userService.getUsers(firstName, lastName, page);
 
-		return Response.ok(users).build();
+		ResponseBuilder response = Response.ok(users).links(getSingeUser);
+
+		// Add pagination links if necessary
+		if (userService.nextPageAvailable(firstName, lastName, page)) {
+			long nextPageNumber = userService.getNextPageNumber(page);
+
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder()
+					.replaceQueryParam("page", nextPageNumber);
+
+			Link nextPage = Link.fromUriBuilder(
+					uriBuilder)
+					.rel("next")
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+
+			response.links(nextPage);
+		}
+		if (userService.previousPageAvailable(firstName, lastName, page)) {
+			long previousPageNumber = userService.getPreviousPageNumber(firstName, lastName, page);
+
+			UriBuilder uriBuilder = uriInfo.getRequestUriBuilder()
+					.replaceQueryParam("page", previousPageNumber);
+
+			Link previousPage = Link.fromUriBuilder(uriBuilder)
+					.rel("prev")
+					.type(MediaType.APPLICATION_JSON)
+					.build();
+
+			response.links(previousPage);
+		}
+
+		return response.build();
 	}
 
 	@GET
 	@Path(USER_BY_ID_ENDPOINT)
 	public Response getUser(@PathParam("id") Long id) {
+		Link getUsers = Link.fromUriBuilder(uriInfo.getBaseUriBuilder()
+				.path(USERS_ENDPOINT))
+				.rel(GET_SINGLE_USER_REL)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+
+		Link updateUser = Link.fromUriBuilder(uriInfo.getBaseUriBuilder()
+				.path(USERS_ENDPOINT)
+				.path(String.valueOf(id)))
+				.rel(UPDATE_USER_REL)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+
+		Link changePassword = Link.fromUriBuilder(uriInfo.getBaseUriBuilder()
+				.path(USERS_ENDPOINT)
+				.path(String.valueOf(id))
+				.path("password"))
+				.rel(CHANGE_PASSWORD_REL)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+
 		return userService.getUser(id)
-				.map(user -> Response.ok(user).build())
-				.orElse(Response.status(Response.Status.NOT_FOUND).build());
+				.map(user -> Response.ok(user)
+						.links(getUsers, updateUser, changePassword)
+						.build())
+				.orElse(Response.status(Response.Status.NOT_FOUND)
+						.links(getUsers)
+						.build());
 	}
 
 	@PUT
@@ -71,6 +139,7 @@ public class UserController {
 					.path(USERS_ENDPOINT + id)
 					.build())
 					.rel(GET_SINGLE_USER_REL)
+					.type(MediaType.APPLICATION_JSON)
 					.build();
 
 			return Response.noContent()
@@ -88,7 +157,18 @@ public class UserController {
 			@PathParam("id") Long id,
 			@Valid ChangePassword user) {
 		userService.changePassword(id, user);
-		return Response.noContent().build();
+
+		Link getUserLink = Link.fromUri(uriInfo.getBaseUriBuilder()
+				.path(USERS_ENDPOINT)
+				.path(String.valueOf(id))
+				.build())
+				.rel(GET_SINGLE_USER_REL)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
+
+		return Response.noContent()
+				.links(getUserLink)
+				.build();
 	}
 
 	@POST
