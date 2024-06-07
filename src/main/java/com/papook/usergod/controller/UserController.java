@@ -131,23 +131,18 @@ public class UserController {
 	@Path(USER_BY_ID_ENDPOINT)
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response updateUser(@PathParam("id") Long id, @Valid User user) {
-		boolean exists = userService.getUser(id).isPresent();
-		User modifyUser = userService.modifyUser(id, user);
+		userService.modifyUser(id, user);
 
-		if (exists) {
-			Link link = Link.fromUri(uriInfo.getBaseUriBuilder()
-					.path(USERS_ENDPOINT + id)
-					.build())
-					.rel(GET_SINGLE_USER_REL)
-					.type(MediaType.APPLICATION_JSON)
-					.build();
+		Link link = Link.fromUri(uriInfo.getBaseUriBuilder()
+				.path(USERS_ENDPOINT + id)
+				.build())
+				.rel(GET_SINGLE_USER_REL)
+				.type(MediaType.APPLICATION_JSON)
+				.build();
 
-			return Response.noContent()
-					.links(link)
-					.build();
-		} else {
-			return Response.created(uriInfo.getRequestUri()).entity(modifyUser).build();
-		}
+		return Response.noContent()
+				.links(link)
+				.build();
 	}
 
 	@PUT

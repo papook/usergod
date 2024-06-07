@@ -57,19 +57,20 @@ public class UserService {
     public User modifyUser(Long id, User user) {
         boolean userExists = userRepository.existsById(id);
 
-        // If the user exists, check if the provided
-        // password matches the current one
-        if (userExists) {
-            User existingUser = userRepository.findById(id).get();
-            String providedPassword = user.getPassword();
-            String currentPasswordHash = existingUser.getPassword();
+        // If the user does not exist, throw an exception
+        if (!userExists) {
+            throw new UserNotFoundException();
+        }
 
-            boolean passwordMatches = PasswordTool.verify(providedPassword, currentPasswordHash);
+        User existingUser = userRepository.findById(id).get();
+        String providedPassword = user.getPassword();
+        String currentPasswordHash = existingUser.getPassword();
 
-            // If the provided password does not match the current one, throw an exception
-            if (!passwordMatches) {
-                throw new WrongPasswordException();
-            }
+        boolean passwordMatches = PasswordTool.verify(providedPassword, currentPasswordHash);
+
+        // If the provided password does not match the current one, throw an exception
+        if (!passwordMatches) {
+            throw new WrongPasswordException();
         }
 
         // Hash the password before saving it
