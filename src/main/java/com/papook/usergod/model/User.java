@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,20 +29,25 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     @Column(name = "first_name")
     @Setter(AccessLevel.NONE)
     private String firstName;
 
+    @NotNull
     @Column(name = "last_name")
     @Setter(AccessLevel.NONE)
     private String lastName;
 
+    @NotNull
     @Email
     private String email;
 
+    @NotNull
     @Column(name = "birth_date")
     private LocalDate birthDate;
 
+    @NotNull
     @Getter(AccessLevel.NONE)
     private String password;
 
