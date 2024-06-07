@@ -114,7 +114,6 @@ public class UserService {
         page = Math.max(1, page);
 
         long pageCount = getPageCount(firstName, lastName);
-        System.out.println("pageCount: " + pageCount);
         return pageCount > page;
     }
 
