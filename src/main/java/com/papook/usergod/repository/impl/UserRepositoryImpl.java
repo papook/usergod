@@ -130,4 +130,19 @@ public class UserRepositoryImpl implements UserRepository {
         return query.getSingleResult();
     }
 
+    @Override
+    public long countByFirstNameAndLastName(String firstName, String lastName) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<User> root = cq.from(User.class);
+
+        cq.select(cb.count(root)).where(
+                cb.like(root.get("firstName"), firstName),
+                cb.like(root.get("lastName"), lastName));
+
+        TypedQuery<Long> query = entityManager.createQuery(cq);
+
+        return query.getSingleResult();
+    }
+
 }
