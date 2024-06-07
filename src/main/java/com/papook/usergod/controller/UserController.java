@@ -1,9 +1,9 @@
 package com.papook.usergod.controller;
 
-import static com.papook.usergod.config.Constants.CHANGE_PASSWORD_ENDPOINT;
-import static com.papook.usergod.config.Constants.GET_USER_COLLECTION_REL;
+import static com.papook.usergod.config.Constants.GET_SINGLE_USER_REL;
 import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
 import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
+import static com.papook.usergod.config.Constants.USER_BY_ID_ENDPOINT;
 
 import java.net.URI;
 
@@ -65,9 +65,9 @@ public class UserController {
 
 		if (modifyUser == null) {
 			Link link = Link.fromUri(uriInfo.getBaseUriBuilder()
-					.path(USERS_ENDPOINT)
+					.path(USERS_ENDPOINT + id)
 					.build())
-					.rel(GET_USER_COLLECTION_REL)
+					.rel(GET_SINGLE_USER_REL)
 					.build();
 
 			return Response.noContent()
