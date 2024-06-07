@@ -99,4 +99,11 @@ public interface CrudRepository<T, ID> {
      *         false otherwise
      */
     boolean existsByEmail(String email);
+
+    /**
+     * Returns the number of entities in the database.
+     * 
+     * @return Number of entities
+     */
+    long count();
 }

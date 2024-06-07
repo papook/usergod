@@ -117,4 +117,17 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
+    public long count() {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<User> root = cq.from(User.class);
+
+        cq.select(cb.count(root));
+
+        TypedQuery<Long> query = entityManager.createQuery(cq);
+
+        return query.getSingleResult();
+    }
+
 }
