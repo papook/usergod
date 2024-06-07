@@ -1,5 +1,7 @@
 package com.papook.usergod.service;
 
+import static com.papook.usergod.config.Constants.PAGE_SIZE;
+
 import java.util.Optional;
 
 import com.papook.usergod.model.ChangePassword;
@@ -102,4 +104,38 @@ public class UserService {
 
         userRepository.update(id, existingUser);
     }
+
+    public boolean previousPageAvailable(String firstName, String lastName, int page) {
+        return page > 1;
+    }
+
+    public boolean nextPageAvailable(String firstName, String lastName, int page) {
+        page = Math.max(1, page);
+
+        long pageCount = getPageCount(firstName, lastName);
+        System.out.println("pageCount: " + pageCount);
+        return pageCount > page;
+    }
+
+    public long getNextPageNumber(int page) {
+        return page + 1;
+    }
+
+    public long getPreviousPageNumber(String firstName, String lastName, int page) {
+        // Get the number of pages available
+        long pageCounter = getPageCount(firstName, lastName);
+
+        // If the page is greater than the page counter, return the page counter
+        if (page - pageCounter > 0) {
+            return Math.max(1, pageCounter);
+        } else {
+            return Math.max(1, page - 1);
+        }
+    }
+
+    private long getPageCount(String firstName, String lastName) {
+        long count = userRepository.countByFirstNameAndLastName(firstName, lastName);
+        return (count + PAGE_SIZE - 1) / PAGE_SIZE;
+    }
+
 }
