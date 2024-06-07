@@ -15,6 +15,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
@@ -132,13 +133,17 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public long countByFirstNameAndLastName(String firstName, String lastName) {
+        firstName = firstName.isEmpty() ? "%" : firstName;
+        lastName = lastName.isEmpty() ? "%" : lastName;
+
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<User> root = cq.from(User.class);
 
-        cq.select(cb.count(root)).where(
-                cb.like(root.get("firstName"), firstName),
-                cb.like(root.get("lastName"), lastName));
+        Predicate firstNamePredicate = cb.like(root.get("firstName"), firstName);
+        Predicate lastNamePredicate = cb.like(root.get("lastName"), lastName);
+
+        cq.select(cb.count(root)).where(cb.and(firstNamePredicate, lastNamePredicate));
 
         TypedQuery<Long> query = entityManager.createQuery(cq);
 
