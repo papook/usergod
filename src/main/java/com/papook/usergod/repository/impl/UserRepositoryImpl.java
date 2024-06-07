@@ -51,15 +51,8 @@ public class UserRepositoryImpl implements UserRepository {
             throw new IdMismatchException();
         }
 
-        boolean exists = entityManager.find(User.class, id) != null;
-
-        if (exists) {
-            entityManager.merge(entity);
-            return null;
-        } else {
-            entityManager.persist(entity);
-            return entity;
-        }
+        entityManager.merge(entity);
+        return entity;
     }
 
     @Override
