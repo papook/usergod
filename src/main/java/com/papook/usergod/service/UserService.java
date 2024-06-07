@@ -2,6 +2,7 @@ package com.papook.usergod.service;
 
 import java.util.Optional;
 
+import com.papook.usergod.model.ChangePassword;
 import com.papook.usergod.model.User;
 import com.papook.usergod.repository.UserRepository;
 import com.papook.usergod.repository.WrongPasswordException;
@@ -74,5 +75,31 @@ public class UserService {
         user.setPassword(hashedPassword);
 
         return userRepository.update(id, user);
+    }
+
+    public void changePassword(Long id, ChangePassword changePassword) {
+        boolean userExists = userRepository.existsById(id);
+
+        // If the user does not exist, return null
+        if (!userExists) {
+            throw new UserNotFoundException();
+        }
+
+        User existingUser = userRepository.findById(id).get();
+        String providedPassword = changePassword.getOldPassword();
+        String currentPasswordHash = existingUser.getPassword();
+
+        boolean passwordMatches = PasswordTool.verify(providedPassword, currentPasswordHash);
+
+        // If the provided password does not match the current one, throw an exception
+        if (!passwordMatches) {
+            throw new WrongPasswordException();
+        }
+
+        // Hash the new password before saving it
+        String hashedPassword = PasswordTool.hash(changePassword.getNewPassword());
+        existingUser.setPassword(hashedPassword);
+
+        userRepository.update(id, existingUser);
     }
 }
