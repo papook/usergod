@@ -6,7 +6,7 @@ package com.papook.usergod.service;
  * 
  * @author papook
  */
-public class UserNotFoundExistException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

@@ -7,10 +7,10 @@ import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 
 @Provider
-public class UserNotFoundExceptionMapper implements ExceptionMapper<UserNotFoundExistException> {
+public class UserNotFoundExceptionMapper implements ExceptionMapper<UserNotFoundException> {
 
     @Override
-    public Response toResponse(UserNotFoundExistException exception) {
+    public Response toResponse(UserNotFoundException exception) {
         int status = 404;
 
         ErrorMessage errorMessage = new ErrorMessage(
