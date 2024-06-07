@@ -3,6 +3,7 @@ package com.papook.usergod.controller;
 import static com.papook.usergod.config.Constants.CHANGE_PASSWORD_ENDPOINT;
 import static com.papook.usergod.config.Constants.CHANGE_PASSWORD_REL;
 import static com.papook.usergod.config.Constants.GET_SINGLE_USER_REL;
+import static com.papook.usergod.config.Constants.GET_USER_COLLECTION_REL;
 import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
 import static com.papook.usergod.config.Constants.UPDATE_USER_REL;
 import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
@@ -99,7 +100,7 @@ public class UserController {
 	public Response getUser(@PathParam("id") Long id) {
 		Link getUsers = Link.fromUriBuilder(uriInfo.getBaseUriBuilder()
 				.path(USERS_ENDPOINT))
-				.rel(GET_SINGLE_USER_REL)
+				.rel(GET_USER_COLLECTION_REL)
 				.type(MediaType.APPLICATION_JSON)
 				.build();
 
@@ -133,7 +134,7 @@ public class UserController {
 	public Response updateUser(@PathParam("id") Long id, @Valid User user) {
 		userService.modifyUser(id, user);
 
-		Link link = Link.fromUri(uriInfo.getBaseUriBuilder()
+		Link getUser = Link.fromUri(uriInfo.getBaseUriBuilder()
 				.path(USERS_ENDPOINT + id)
 				.build())
 				.rel(GET_SINGLE_USER_REL)
@@ -141,7 +142,7 @@ public class UserController {
 				.build();
 
 		return Response.noContent()
-				.links(link)
+				.links(getUser)
 				.build();
 	}
 
@@ -153,7 +154,7 @@ public class UserController {
 			@Valid ChangePassword user) {
 		userService.changePassword(id, user);
 
-		Link getUserLink = Link.fromUri(uriInfo.getBaseUriBuilder()
+		Link getUser = Link.fromUri(uriInfo.getBaseUriBuilder()
 				.path(USERS_ENDPOINT)
 				.path(String.valueOf(id))
 				.build())
@@ -162,7 +163,7 @@ public class UserController {
 				.build();
 
 		return Response.noContent()
-				.links(getUserLink)
+				.links(getUser)
 				.build();
 	}
 
