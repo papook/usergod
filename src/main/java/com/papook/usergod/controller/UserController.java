@@ -1,5 +1,6 @@
 package com.papook.usergod.controller;
 
+import static com.papook.usergod.config.Constants.CHANGE_PASSWORD_ENDPOINT;
 import static com.papook.usergod.config.Constants.GET_SINGLE_USER_REL;
 import static com.papook.usergod.config.Constants.REGISTER_ENDPOINT;
 import static com.papook.usergod.config.Constants.USERS_ENDPOINT;
@@ -7,6 +8,7 @@ import static com.papook.usergod.config.Constants.USER_BY_ID_ENDPOINT;
 
 import java.net.URI;
 
+import com.papook.usergod.model.ChangePassword;
 import com.papook.usergod.model.User;
 import com.papook.usergod.service.UserService;
 
@@ -77,6 +79,16 @@ public class UserController {
 		} else {
 			return Response.created(uriInfo.getRequestUri()).entity(modifyUser).build();
 		}
+	}
+
+	@PUT
+	@Path(CHANGE_PASSWORD_ENDPOINT)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response changePassword(
+			@PathParam("id") Long id,
+			@Valid ChangePassword user) {
+		userService.changePassword(id, user);
+		return Response.noContent().build();
 	}
 
 	@POST
