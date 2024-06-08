@@ -2,9 +2,9 @@
 A simple RESTful Web Application for registering and managing users without any security features. Implemented in Jakarta EE 10.
 
 # Prerequisites
-For launching and using the application, you should have Docker installed.
+For launching and using the application, you should have Docker and JDK 17 installed.
 
-A manual installation of Maven or JDK is not required. Maven is available in the project root as a wrapper. 
+A manual installation of Maven is not required, as it is available in the project root as a wrapper. 
 
 # Build and Run
 On Linux and MacOS, it is just enough to launch the `deploy.sh` script in the project root.
